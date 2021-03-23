@@ -10,18 +10,18 @@ Visit the link - https://github.com/Glo18/MovieApp.git
 
 -Download and install Android SDK
 
-Download and install JAVA
+-Download and install JAVA
 
-Clone or download this repository (link in the section below) to your local machine and run in ur code editor.
+-Clone or download this repository (link in the section below) to your local machine and run in ur code editor.
 
-Run the application on the emulator
+-Run the application on the emulator
 
 ### Link to live site
 https://github.com/Glo18/MovieApp.git
 
 ### TECHNOLOGIES USED
-java
-Android
+-java
+-Android
 
 ### LICENSE
 MIT Copyright (c) 2021 Glory Kiogora
