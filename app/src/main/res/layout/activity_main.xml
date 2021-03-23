@@ -30,4 +30,15 @@
         android:inputType="text"
         android:padding="5dp" />
 
+    <Button
+        android:id="@+id/FindMoviesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorSecondaryText"
+        android:fontFamily="@font/allerta_stencil"
+        android:text="Find movies"
+        android:textColor="@color/colorTextIcons" />
+
 </RelativeLayout>
