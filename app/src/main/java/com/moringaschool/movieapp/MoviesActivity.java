@@ -13,5 +13,6 @@ public class MoviesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movies);
         Intent intent = getIntent();
         String genres = intent.getStringExtra("genres");
+        mGenreTextView.setText("Available genres: " + genres);
     }
 }
