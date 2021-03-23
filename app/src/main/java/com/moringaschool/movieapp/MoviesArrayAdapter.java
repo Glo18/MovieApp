@@ -24,6 +24,7 @@ public class MoviesArrayAdapter extends ArrayAdapter {
 
     @Override
     public int getCount() {
+
         return mMovies.length;
     }
 }
