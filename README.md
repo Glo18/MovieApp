@@ -20,8 +20,8 @@ Visit the link - https://github.com/Glo18/MovieApp.git
 https://github.com/Glo18/MovieApp.git
 
 ### TECHNOLOGIES USED
--java
--Android
+Java
+Android
 
 ### LICENSE
 MIT Copyright (c) 2021 Glory Kiogora
