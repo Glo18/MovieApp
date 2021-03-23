@@ -20,4 +20,14 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <Button
+        android:id="@+id/FindMoviesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorSecondaryText"
+        android:text="About MovieApp"
+        android:textColor="@color/colorTextIcons" />
+
 </RelativeLayout>
