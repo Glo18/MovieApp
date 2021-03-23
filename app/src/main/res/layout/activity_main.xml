@@ -50,7 +50,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@color/colorSecondaryText"
-        android:fontFamily="@font/allerta_stencil"
         android:text="Find movies"
         android:textColor="@color/colorTextIcons" />
 
