@@ -13,9 +13,8 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static butterknife.ButterKnife.bind;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.FindMoviesButton) Button mFindMoviesButton;
     @BindView(R.id.GenresEdit) EditText mGenresEdit;
@@ -28,6 +27,14 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        mFindMoviesButton.setOnClickListener((View.OnClickListener) this);
+        mFindMoviesButton.setOnClickListener(this);
+    }
+    @Override
+    public void onClick(View v) {
+
+        Intent intent = new Intent(MainActivity.this, MoviesActivity.class);
+        startActivity(intent);
+        Toast.makeText(MainActivity.this, "Success!", Toast.LENGTH_LONG).show();
+
     }
 }
