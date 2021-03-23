@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayoutLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/ima"
+    android:background="@drawable/image2"
+    android:foreground="@drawable/image2"
     tools:context=".AboutActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#232222"
+        android:backgroundTint="#4C219A"
+        android:scaleType="centerInside"
+        android:src="@drawable/imagee1"
+        app:srcCompat="@drawable/image2"
+        tools:srcCompat="@drawable/image2" />
+
+    <TextView
+        android:id="@+id/genresTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="About MovieApp.This is an application that gives the user access to watch various genres of movies in this platform. "
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textColor="#F60606"
+        android:textSize="30sp" />
+
+</RelativeLayoutLayout>
