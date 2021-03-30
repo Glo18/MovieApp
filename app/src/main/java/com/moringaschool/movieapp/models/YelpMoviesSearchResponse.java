@@ -1,4 +1,4 @@
-package com.moringaschool.movieapp;
+package com.moringaschool.movieapp.models;
 
 public class YelpMoviesSearchResponse {
 }

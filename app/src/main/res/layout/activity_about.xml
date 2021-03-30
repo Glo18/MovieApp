@@ -7,7 +7,7 @@
     android:id="@+id/ima"
     android:background="@drawable/image2"
     android:foreground="@drawable/image2"
-    tools:context=".AboutActivity">
+    tools:context=".ui.AboutActivity">
 
     <ImageView
         android:id="@+id/imageView"

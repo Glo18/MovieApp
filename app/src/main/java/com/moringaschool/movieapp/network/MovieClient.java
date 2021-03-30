@@ -1,4 +1,6 @@
-package com.moringaschool.movieapp;
+package com.moringaschool.movieapp.network;
+
+import com.moringaschool.movieapp.network.MovieApi;
 
 import java.io.IOException;
 

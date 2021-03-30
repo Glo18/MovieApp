@@ -1,6 +1,4 @@
-package com.moringaschool.movieapp;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.moringaschool.movieapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +8,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.moringaschool.movieapp.MoviesActivity;
+import com.moringaschool.movieapp.R;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

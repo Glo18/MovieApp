@@ -1,4 +1,6 @@
-package com.moringaschool.movieapp;
+package com.moringaschool.movieapp.network;
+
+import com.moringaschool.movieapp.models.YelpMoviesSearchResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -53,7 +53,7 @@ public class MoviesActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MoviesActivity.this, AboutActivity.class);
+                Intent intent = new Intent(MoviesActivity.this, com.moringaschool.movieapp.ui.AboutActivity.class);
                 startActivity(intent);
             }
         });
