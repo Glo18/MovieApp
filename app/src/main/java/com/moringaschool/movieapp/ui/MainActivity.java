@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.moringaschool.movieapp.MoviesActivity;
 import com.moringaschool.movieapp.R;
 
 import butterknife.BindView;
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-        Intent intent = new Intent(MainActivity.this, MoviesActivity.class);
+        Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
         startActivity(intent);
         Toast.makeText(MainActivity.this, "Success!", Toast.LENGTH_LONG).show();
 

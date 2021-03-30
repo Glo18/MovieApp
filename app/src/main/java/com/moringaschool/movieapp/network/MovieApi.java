@@ -1,15 +1,20 @@
 package com.moringaschool.movieapp.network;
 
-import com.moringaschool.movieapp.models.YelpMoviesSearchResponse;
+import com.moringaschool.movieapp.models.MovieListResponse;
+import com.moringaschool.movieapp.models.Result;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface MovieApi {
-    @GET("businesses/search")
-    Call<YelpMoviesSearchResponse> getRestaurants(
-            @Query("location") String location,
-            @Query("term") String term
+    @GET("discover/movie")
+    Call<MovieListResponse> getMovies(
+            @Query("api_key") String api_key,
+            @Query("language") String language,
+            @Query("sort_by") String sort_by,
+            @Query("include_adult") String include_adult,
+            @Query("include_video") String include_video,
+            @Query("page") Integer page
     );
 }
