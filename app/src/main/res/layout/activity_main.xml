@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#61707C"
     tools:context=".ui.MainActivity">
 
@@ -25,7 +25,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp"
         android:fontFamily="sans-serif-medium"
-        android:text="MovieApp"
+        android:text="WallView"
         android:textColor="#FFFFFF"
         android:textSize="60sp"
         android:textStyle="bold"
@@ -43,6 +43,7 @@
         android:inputType="text"
         android:padding="5dp" />
 
+
     <Button
         android:id="@+id/FindMoviesButton"
         android:layout_width="match_parent"
@@ -50,6 +51,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@color/colorSecondaryText"
+        android:fontFamily="@font/allerta_stencil"
         android:text="Find movies"
         android:textColor="@color/colorTextIcons" />
 

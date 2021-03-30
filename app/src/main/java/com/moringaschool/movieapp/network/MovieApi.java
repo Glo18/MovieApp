@@ -1,7 +1,6 @@
 package com.moringaschool.movieapp.network;
 
 import com.moringaschool.movieapp.models.MovieListResponse;
-import com.moringaschool.movieapp.models.Result;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

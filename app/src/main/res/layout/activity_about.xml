@@ -1,32 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayoutLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/ima"
-    android:background="@drawable/image2"
-    android:foreground="@drawable/image2"
-    tools:context=".ui.AboutActivity">
+    android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="100dp"
+        android:id="@+id/restaurantImageView"
+        android:src="@drawable/image2"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#232222"
-        android:backgroundTint="#4C219A"
-        android:scaleType="centerInside"
-        android:src="@drawable/imagee1"
-        app:srcCompat="@drawable/image2"
-        tools:srcCompat="@drawable/image2" />
+        android:background="#ffffff"
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/genresTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:text="About MovieApp.This is an application that gives the user access to watch various genres of movies in this platform. "
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        android:textColor="#F60606"
-        android:textSize="30sp" />
+        <TextView
+            android:id="@+id/MovieNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Movie Name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
-</RelativeLayoutLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="One Cuisine Type"
+            android:id="@+id/categoryTextView"
+            android:layout_below="@+id/MovieNameTextView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textStyle="italic"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rating"
+                android:id="@+id/ratingTextView"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/colorAccent"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
