@@ -1,8 +1,36 @@
 package com.moringaschool.movieapp.ui;
 
+//import android.content.Intent;
+//import android.content.SharedPreferences;
+//import android.graphics.Movie;
+//import android.os.Bundle;
+//import android.preference.PreferenceManager;
+//import android.util.Log;
+//import android.view.View;
+//import android.widget.ProgressBar;
+//import android.widget.TextView;
+//
+//import androidx.appcompat.app.AppCompatActivity;
+//import androidx.recyclerview.widget.LinearLayoutManager;
+//import androidx.recyclerview.widget.RecyclerView;
+//
+//import com.moringaschool.movieapp.Constants;
+//import com.moringaschool.movieapp.R;
+//import com.moringaschool.movieapp.adapters.MovieListAdapter;
+//import com.moringaschool.movieapp.network.MoviedbApi;
+//import com.moringaschool.movieapp.network.MoviedbClient;
 //import com.moringaschool.wallview.model.Genre;
-
-
+//
+//import java.util.Arrays;
+//import java.util.List;
+//
+//import butterknife.BindView;
+//import butterknife.ButterKnife;
+//import retrofit2.Call;
+//import retrofit2.Callback;
+//import retrofit2.Response;
+//
+//
 //public class AboutActivity extends AppCompatActivity {
 //
 //    private static final String TAG = AboutActivity.class.getSimpleName();

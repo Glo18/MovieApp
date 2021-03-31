@@ -23,9 +23,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
 
-    @BindView(R.id.FindMoviesButton) Button mFindMoviesButton;
-    @BindView(R.id.GenresEdit) EditText mGenresEdit;
-    @BindView(R.id.appNameTextView) TextView mAppNameTextView;
+    @BindView(R.id.FindMoviesButton)
+    Button mFindMoviesButton;
+    @BindView(R.id.GenresEdit)
+    EditText mGenresEdit;
+    @BindView(R.id.appNameTextView)
+    TextView mAppNameTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,25 +42,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mFindMoviesButton.setOnClickListener(this);
     }
+
     @Override
     public void onClick(View v) {
-        @Override
-        public void onClick(View v) {
             if (v == mFindMoviesButton) {
                 String genres = mGenresEdit.getText().toString();
-                if(!(genres).equals("")){
+                if (!(genres).equals("")) {
                     addToSharedPreferences(genres);
                 }
 
-        Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
-        startActivity(intent);
-        Toast.makeText(MainActivity.this, "Success!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
+                startActivity(intent);
+                Toast.makeText(MainActivity.this, "Success!", Toast.LENGTH_LONG).show();
 
-        startActivity(intent);
-    }
-}
-
-        private void addToSharedPreferences(String genres){
-            mEditor.putString(Constants.PREFERENCES_GENRES_KEY, genres).apply();
+                startActivity(intent);
+            }
         }
+
+    private void addToSharedPreferences(String genres) {
+        mEditor.putString(Constants.PREFERENCES_GENRES_KEY, genres).apply();
+    }
     }

@@ -11,6 +11,7 @@ import com.moringaschool.movieapp.models.Result;
 public class MovieDetailFragment extends AppCompatActivity {
 
     public static Fragment newInstance(Result genres) {
+
         return null;
     }
 

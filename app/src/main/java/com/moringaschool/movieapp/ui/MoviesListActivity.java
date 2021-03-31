@@ -4,25 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.graphics.Movie;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.moringaschool.movieapp.MoviesArrayAdapter;
 import com.moringaschool.movieapp.R;
 import com.moringaschool.movieapp.adapters.MovieListAdapter;
 import com.moringaschool.movieapp.models.MovieListResponse;
 import com.moringaschool.movieapp.models.Result;
-import com.moringaschool.movieapp.network.MovieApi;
-import com.moringaschool.movieapp.network.MovieClient;
+import com.moringaschool.movieapp.network.MoviedbApi;
+import com.moringaschool.movieapp.network.MoviedbClient;
 
 import java.util.List;
 
@@ -60,10 +53,11 @@ public class MoviesListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
         ButterKnife.bind(this);
-        MovieApi movieApi = MovieClient.getClient();
+
+        MoviedbApi moviedbApi = MoviedbClient.getClient();
 
 
-        retrofit2.Call<MovieListResponse> call = movieApi.getMovies("34873bd5e098d4b5e303a13ccac6a12d", "en-US", "popularity.desc", "true", "false", 1);
+        retrofit2.Call<MovieListResponse> call = moviedbApi.getMovies("34873bd5e098d4b5e303a13ccac6a12d", "en-US", "popularity.desc", "true", "false", 1);
 
         call.enqueue(new retrofit2.Callback <MovieListResponse>() {
 

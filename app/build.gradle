@@ -23,7 +23,7 @@ android {
         }
 
         buildTypes.each {
-            it.buildConfigField 'String', 'YELP_API_KEY', YelpApiKey
+            it.buildConfigField 'String', 'TMDb_API_KEY', TMDbApiKey
         }
     }
     compileOptions {
@@ -49,4 +49,5 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 }
