@@ -1,9 +1,7 @@
 package com.moringaschool.movieapp.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,9 +18,6 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor mEditor;
-
     @BindView(R.id.FindMoviesButton)
     Button mFindMoviesButton;
     @BindView(R.id.GenresEdit)
@@ -37,8 +32,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ButterKnife.bind(this);
 
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mEditor = mSharedPreferences.edit();
 
         mFindMoviesButton.setOnClickListener(this);
     }
@@ -48,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (v == mFindMoviesButton) {
                 String genres = mGenresEdit.getText().toString();
                 if (!(genres).equals("")) {
-                    addToSharedPreferences(genres);
                 }
 
                 Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
@@ -59,7 +51,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-    private void addToSharedPreferences(String genres) {
-        mEditor.putString(Constants.PREFERENCES_GENRES_KEY, genres).apply();
-    }
     }

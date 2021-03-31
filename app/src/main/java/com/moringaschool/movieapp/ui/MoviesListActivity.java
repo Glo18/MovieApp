@@ -84,10 +84,6 @@ public class MoviesListActivity extends AppCompatActivity {
                 hideProgressBar();
                 showFailureMessage();
             }
-
-
-
-
         });
 
     }
