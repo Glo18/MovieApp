@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.moringaschool.movieapp.Constants;
 import com.moringaschool.movieapp.R;
 import com.moringaschool.movieapp.adapters.MovieListAdapter;
 import com.moringaschool.movieapp.models.MovieListResponse;
@@ -24,6 +27,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 
 public class MoviesListActivity extends AppCompatActivity {
+    private SharedPreferences mSharedPreferences;
+    private String mRecentAddress;
     public static final String TAG = MoviesListActivity.class.getSimpleName();
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
@@ -53,6 +58,13 @@ public class MoviesListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
         ButterKnife.bind(this);
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mRecentAddress = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
+        Log.d("Shared Pref Location", mRecentAddress);
+
+        String location = mRecentAddress;
+    }
 
         MoviedbApi moviedbApi = MoviedbClient.getClient();
 
