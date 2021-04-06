@@ -15,23 +15,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieApp">
-        <activity android:name=".ui.CreateAccountActivity"></activity>
+        <activity
+            android:name=".ui.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.CreateAccountActivity" />
         <activity android:name=".ui.SavedMoviesListActivity" />
-        <activity android:name=".ui.MovieDetailFragment" />
         <activity android:name=".ui.MovieDetailActivity" />
-        <activity android:name=".ui.AboutActivity" />
+        <activity
+            android:name=".ui.MainActivity"
+            android:theme="@style/NoActionBarTheme">
+
+        </activity>
         <activity android:name=".ui.MoviesListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.moringaschool.movieapp.ui.MainActivity" />
         </activity>
-        <activity android:name=".ui.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
