@@ -4,15 +4,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.moringaschool.movieapp.Constants;
 import com.moringaschool.movieapp.R;
 
@@ -26,21 +32,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //    private SharedPreferences mSharedPreferences;
 //    private SharedPreferences.Editor mEditor;
 
-    private DatabaseReference mSearchedLocationReference;
+    private ValueEventListener mSearchedGenreReferenceListener;
 
-    @BindView(R.id.FindMoviesButton)
-    Button mFindMoviesButton;
-    @BindView(R.id.GenresEdit)
-    EditText mGenresEdit;
-    @BindView(R.id.appNameTextView)
-    TextView mAppNameTextView;
-    private String mSearchedGenreReference;
+    public DatabaseReference mSearchedGenreReference;
+
+    @BindView(R.id.FindMoviesButton) Button mFindMoviesButton;
+    @BindView(R.id.GenresEdit) EditText mGenresEdit;
+    @BindView(R.id.appNameTextView) TextView mAppNameTextView;
+//    private String mSearchedGenreReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-////                .getInstance()
-//                .getReference()
-//                .child(Constants.FIREBASE_CHILD_SEARCHED_LOCATION);
+
+        mSearchedGenreReference = FirebaseDatabase
+//                .getInstance()
+                .getReference()
+                .child(Constants.FIREBASE_CHILD_SEARCHED_GENRE);
+
+        mSearchedGenreReferenceListener = mSearchedGenreReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot genreSnapshot : dataSnapshot.getChildren()) {
+
+                    String genre = genreSnapshot.getValue().toString();
+                    Log.d("Genres updated", "genre" + genre);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
                 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -55,26 +79,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
             if (v == mFindMoviesButton) {
-                String genres = mGenresEdit.getText().toString();
+                String genre = mGenresEdit.getText().toString();
                 
-                saveGenresToFirebase(genres);
+                saveGenreToFirebase(genre);
                 
 //                if (!(genres).equals("")) {
 //                    addToSharedPreferences(genres);
 //                }
 
                 Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
+                intent.putExtra("genre", genre);
                 startActivity(intent);
 //                Toast.makeText(MainActivity.this, "Success!", Toast.LENGTH_LONG).show();
-
-                startActivity(intent);
             }
         }
-        public void saveGenresToFirebase(String genres) {
+        public void saveGenreToFirebase(String genre) {
+        mSearchedGenreReference.push().setValue(genre);
     }
-    
-    public void saveLocationToFirebase(String location) {
-        mSearchedLocationReference.setValue(location);
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSearchedGenreReference.removeEventListener(mSearchedGenreReferenceListener);
     }
 
     //    private void addToSharedPreferences(String genres) {
