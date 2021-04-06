@@ -51,6 +51,7 @@ public class Result {
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
+    private String pushId;
 
     public Boolean getAdult() {
         return adult;

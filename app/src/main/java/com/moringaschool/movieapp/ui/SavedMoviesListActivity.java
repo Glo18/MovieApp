@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.moringaschool.movieapp.Constants;
@@ -38,7 +40,10 @@ public class SavedMoviesListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movies);
         ButterKnife.bind(this);
 
-        mMoviesReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_MOVIES);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+
+        mMoviesReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_MOVIES).child(uid);
         setUpFirebaseAdapter();
         hideProgressBar();
         showMovies();
