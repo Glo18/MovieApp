@@ -12,16 +12,21 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
 import com.moringaschool.movieapp.Constants;
 import com.moringaschool.movieapp.R;
+
+import java.net.HttpCookie;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor mEditor;
+//    private SharedPreferences mSharedPreferences;
+//    private SharedPreferences.Editor mEditor;
+
+    private DatabaseReference mSearchedLocationReference;
 
     @BindView(R.id.FindMoviesButton)
     Button mFindMoviesButton;
@@ -29,16 +34,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText mGenresEdit;
     @BindView(R.id.appNameTextView)
     TextView mAppNameTextView;
+    private String mSearchedGenreReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+////                .getInstance()
+//                .getReference()
+//                .child(Constants.FIREBASE_CHILD_SEARCHED_LOCATION);
+                
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
 
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mEditor = mSharedPreferences.edit();
+//        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        mEditor = mSharedPreferences.edit();
 
         mFindMoviesButton.setOnClickListener(this);
     }
@@ -47,19 +56,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
             if (v == mFindMoviesButton) {
                 String genres = mGenresEdit.getText().toString();
-                if (!(genres).equals("")) {
-                    addToSharedPreferences(genres);
-                }
+                
+                saveGenresToFirebase(genres);
+                
+//                if (!(genres).equals("")) {
+//                    addToSharedPreferences(genres);
+//                }
 
                 Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
                 startActivity(intent);
-                Toast.makeText(MainActivity.this, "Success!", Toast.LENGTH_LONG).show();
+//                Toast.makeText(MainActivity.this, "Success!", Toast.LENGTH_LONG).show();
 
                 startActivity(intent);
             }
         }
-
-    private void addToSharedPreferences(String genres) {
-        mEditor.putString(Constants.PREFERENCES_GENRES_KEY, genres).apply();
+        public void saveGenresToFirebase(String genres) {
     }
+    
+    public void saveLocationToFirebase(String location) {
+        mSearchedLocationReference.setValue(location);
+    }
+
+    //    private void addToSharedPreferences(String genres) {
+//        mEditor.putString(Constants.PREFERENCES_GENRES_KEY, genres).apply();
+//    }
     }
