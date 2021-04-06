@@ -18,7 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.moringaschool.movieapp.Constants;
 import com.moringaschool.movieapp.R;
-import com.moringaschool.movieapp.adapters.FirebaseRestaurantViewHolder;
+import com.moringaschool.movieapp.adapters.FirebaseMoviesViewHolder;
 import com.moringaschool.movieapp.models.Result;
 
 import butterknife.BindView;
@@ -52,8 +52,8 @@ public class SavedMoviesListActivity extends AppCompatActivity {
 
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Result, FirebaseMoviesViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull FirebaseRestaurantViewHolder holder, int position, @NonNull Result movies) {
-                firebaseMoviesViewHolder.bindMovies(movies);
+            protected void onBindViewHolder(@NonNull FirebaseMoviesViewHolder holder, int position, @NonNull Result movies) {
+                FirebaseMoviesViewHolder.bindMovies(movies);
             }
 
             @NonNull

@@ -39,16 +39,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.FindMoviesButton) Button mFindMoviesButton;
     @BindView(R.id.GenresEdit) EditText mGenresEdit;
     @BindView(R.id.appNameTextView) TextView mAppNameTextView;
+    @BindView(R.id.saveMovieButton) Button mSaveMovieButton;
 //    private String mSearchedGenreReference;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        mSearchedGenreReference = FirebaseDatabase
-//                .getInstance()
-                .getReference()
-                .child(Constants.FIREBASE_CHILD_SEARCHED_GENRE);
+//        mSearchedGenreReference = FirebaseDatabase
+////                .getInstance()
+//                .getReference()
+//                .child(Constants.FIREBASE_CHILD_SEARCHED_GENRE);
 
         mSearchedGenreReferenceListener = mSearchedGenreReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 //        mEditor = mSharedPreferences.edit();
 
+        mSaveMovieButton.setOnClickListener(this);
         mFindMoviesButton.setOnClickListener(this);
     }
 
@@ -80,9 +82,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
             if (v == mFindMoviesButton) {
                 String genre = mGenresEdit.getText().toString();
-                
+
                 saveGenreToFirebase(genre);
-                
+
 //                if (!(genres).equals("")) {
 //                    addToSharedPreferences(genres);
 //                }
@@ -90,9 +92,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
                 intent.putExtra("genre", genre);
                 startActivity(intent);
-//                Toast.makeText(MainActivity.this, "Success!", Toast.LENGTH_LONG).show();
             }
-        }
+//                Toast.makeText(MainActivity.this, "Success!", Toast.LENGTH_LONG).show();
+
+                if (v == mSaveMovieButton) {
+                    Intent intent = new Intent(MainActivity.this, SavedMoviesListActivity.class);
+                    startActivity(intent);
+                }
+            }
+
         public void saveGenreToFirebase(String genre) {
         mSearchedGenreReference.push().setValue(genre);
     }

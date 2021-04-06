@@ -37,14 +37,14 @@ public class MovieDetailFragment extends AppCompatActivity implements View.OnCli
         View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
         ButterKnife.bind(this, view);
 
-        mSaveMoviesButton.setOnClickListener(this);
+        mSaveMovieButton.setOnClickListener(this);
 
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        if (v == mSaveMoviesButton) {
+        if (v == mSaveMovieButton) {
             DatabaseReference restaurantRef = FirebaseDatabase
                     .getInstance()
                     .getReference(Constants.FIREBASE_CHILD_MOVIES);
