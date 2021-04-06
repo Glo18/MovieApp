@@ -9,8 +9,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.moringaschool.movieapp.Constants;
@@ -26,18 +30,19 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MoviesListActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
-    private String mRecentAddress;
+    private SharedPreferences.Editor mEditor;
     private String mRecentGenres;
-    public static final String TAG = MoviesListActivity.class.getSimpleName();
 
+    public static final String TAG = MoviesListActivity.class.getSimpleName();
+    private MovieListAdapter mAdapter;
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
     @BindView(R.id.errorTextView) TextView mErrorTextView;
     @BindView(R.id.progressBar) ProgressBar mProgressBar;
-
-    private MovieListAdapter mAdapter;
     public List<Result> results;
 
     @Override
@@ -46,71 +51,98 @@ public class MoviesListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movies);
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
-
-//        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        mRecentAddress = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
-//        Log.d("Shared Pref Location", mRecentAddress);
-
-        String location = intent.getStringExtra("location");
-        String genres = intent.getStringExtra("genres");
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mRecentGenres = mSharedPreferences.getString(Constants.PREFERENCES_GENRES_KEY, null);
+        if (mRecentGenres != null) {
+            fetchMovies(mRecentGenres);
+        }
     }
 
-//        MoviedbApi moviedbApi = MoviedbClient.getClient();
-//
-//
-//        retrofit2.Call<MovieListResponse> call = moviedbApi.getMovies("34873bd5e098d4b5e303a13ccac6a12d", "en-US", "popularity.desc", "true", "false", 1);
-//
-//        call.enqueue(new retrofit2.Callback <MovieListResponse>() {
-//
-//
-//            public void onResponse(retrofit2.Call <MovieListResponse> call, retrofit2.Response <MovieListResponse> response) {
+        @Override
+        public boolean onCreateOptionsMenu (Menu menu){
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_search, menu);
+            ButterKnife.bind(this);
+
+            mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            mEditor = mSharedPreferences.edit();
+
+            MenuItem menuItem = menu.findItem(R.id.action_search);
+            SearchView searchView = (SearchView) menuItem.getActionView();
+
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String genres) {
+                    addToSharedPreferences(genres);
+                    fetchMovies(genres);
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String genres) {
+                    return false;
+                }
+            });
+
+            return true;
+        }
+
+        @Override
+        public boolean onOptionsItemSelected (MenuItem item){
+            return super.onOptionsItemSelected(item);
+        }
+
+
+        private void showFailureMessage () {
+            mErrorTextView.setText("Something went wrong. Please check your Internet connection and try again later");
+            mErrorTextView.setVisibility(View.VISIBLE);
+        }
+
+        private void showUnsuccessfulMessage () {
+            mErrorTextView.setText("Something went wrong. Please try again later");
+            mErrorTextView.setVisibility(View.VISIBLE);
+        }
+
+        private void showMovies () {
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
+
+        private void hideProgressBar () {
+            mProgressBar.setVisibility(View.GONE);
+        }
+
+        private void addToSharedPreferences (String genres){
+            mEditor.putString(Constants.PREFERENCES_GENRES_KEY, genres).apply();
+        }
+
+    private void fetchMovies(String genres){
+        MoviedbApi moviedbApi = MoviedbClient.getClient();
+        retrofit2.Call<MovieListResponse> call = moviedbApi.getMovies("34873bd5e098d4b5e303a13ccac6a12d", "en-US", "popularity.desc", "true", "false", 1);
+        call.enqueue(new retrofit2.Callback<MovieListResponse>() {
+            @Override
+            public void onResponse(retrofit2.Call<MovieListResponse> call, retrofit2.Response<MovieListResponse> response) {
+                hideProgressBar();
 //                Log.d("On Response", "Got Response");
-//                if(response.isSuccessful()) {
-//                    hideProgressBar();
-//                    results = response.body().getResults();
-//                    mAdapter = new MovieListAdapter(MoviesListActivity.this, results);
-//                    mRecyclerView.setAdapter(mAdapter);
-//                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MoviesListActivity.this);
-//                    mRecyclerView.setLayoutManager(layoutManager);
-//                    mRecyclerView.setHasFixedSize(true);
-//                    showResults();
-//                } else {
-//                    showUnsuccessfulMessage();
-//                }
-//            }
+                if (response.isSuccessful()) {
+                    results = response.body().getResults();
+                    mAdapter = new MovieListAdapter(MoviesListActivity.this, results);
+                    mRecyclerView.setAdapter(mAdapter);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MoviesListActivity.this);
+                    mRecyclerView.setLayoutManager(layoutManager);
+                    mRecyclerView.setHasFixedSize(true);
 
-//            @Override
-//            public void onFailure(Call<MovieListResponse> call, Throwable t) {
-//                Log.e(TAG, "onFailure:", t);
-//                hideProgressBar();
-//                showFailureMessage();
-//            }
-//
-//
-//
-//
-//        });
-//
-//    }
+                    showMovies();
+                } else {
+                    showUnsuccessfulMessage();
+                }
+            }
 
-    private void showFailureMessage() {
-        mErrorTextView.setText("Something went wrong. Please check your Internet connection and try again later");
-        mErrorTextView.setVisibility(View.VISIBLE);
+            @Override
+            public void onFailure(Call<MovieListResponse> call, Throwable t) {
+                Log.e(TAG, "onFailure:", t);
+                hideProgressBar();
+                showFailureMessage();
+            }
+        });
     }
-
-    private void showUnsuccessfulMessage() {
-        mErrorTextView.setText("Something went wrong. Please try again later");
-        mErrorTextView.setVisibility(View.VISIBLE);
     }
-
-    private void showResults() {
-        mRecyclerView.setVisibility(View.VISIBLE);
-    }
-
-    private void hideProgressBar() {
-        mProgressBar.setVisibility(View.GONE);
-    }
-
-
-}
