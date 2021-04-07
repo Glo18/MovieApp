@@ -9,6 +9,7 @@ import java.util.List;
 
 @Parcel
 public class Result {
+
     @SerializedName("adult")
     @Expose
     private Boolean adult;
@@ -33,9 +34,9 @@ public class Result {
     @SerializedName("popularity")
     @Expose
     private Double popularity;
-    @SerializedName("poster_path")
+    @SerializedName("rating")
     @Expose
-    private String posterPath;
+    private String rating;
     @SerializedName("release_date")
     @Expose
     private String releaseDate;
@@ -51,7 +52,57 @@ public class Result {
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
+    @SerializedName("transactions")
+    @Expose
+    private List<String> transactions = null;
     private String pushId;
+
+    /**
+     * No args constructor for use in serialization
+     *
+     */
+    public Result() {
+
+    }
+
+    /**
+     *
+
+     * @param voteCount
+     * @param adult
+     * @param voteAverage
+     * @param backdropPath
+     * @param genre_ids
+     * @param id
+     * @param original_language
+     * @param original_title
+     * @param overview
+     * @param popularity
+     * @param rating
+     * @param release_date
+     * @param title
+     * @param video
+     * @param transactions
+     */
+
+    public Result (Boolean adult, String backdropPath, Integer id, String original_language, String original_title, String overview, Double popularity, String rating, String release_date, String title, Boolean video, Double voteAverage, Integer voteCount, List<Integer> genre_ids, List<String> transactions) {
+        super();
+        this.adult = adult;
+        this.backdropPath = backdropPath;
+        this.genreIds = genre_ids;
+        this.id = id;
+        this.originalLanguage = original_language;
+        this.originalTitle = original_title;
+        this.overview = overview;
+        this.popularity = popularity;
+        this.rating = rating;
+        this.releaseDate = release_date;
+        this.title = title;
+        this.video = video;
+        this.voteAverage = voteAverage;
+        this.voteCount = voteCount;
+        this.transactions = transactions;
+    }
 
     public Boolean getAdult() {
         return adult;
@@ -117,12 +168,12 @@ public class Result {
         this.popularity = popularity;
     }
 
-    public String getPosterPath() {
-        return posterPath;
+    public double getRating() {
+        return Double.parseDouble(rating);
     }
 
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
     public String getReleaseDate() {
@@ -165,4 +216,15 @@ public class Result {
         this.voteCount = voteCount;
     }
 
+    public void setTransactions(List<String> transactions) {
+        this.transactions = transactions;
+    }
+
+    public String getPushId() {
+        return pushId;
+    }
+
+    public void setPushId(String pushId) {
+        this.pushId = pushId;
+    }
 }

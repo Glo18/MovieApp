@@ -51,8 +51,8 @@ public class SavedMoviesListActivity extends AppCompatActivity {
 
     private void setUpFirebaseAdapter(){
         FirebaseRecyclerOptions<Result> options =
-                new FirebaseRecyclerOptions.Builder< >()
-                .setQuery(mMoviesReference, Result.class)
+                new FirebaseRecyclerOptions.Builder<Result>()
+                        .setQuery(mMoviesReference, Result.class)
                 .build();
 
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Result, FirebaseMoviesViewHolder>(options) {

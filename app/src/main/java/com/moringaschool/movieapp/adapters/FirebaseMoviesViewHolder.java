@@ -28,7 +28,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 
 public class FirebaseMoviesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    View mView;
+    static View mView;
     Context mContext;
 
     public FirebaseMoviesViewHolder(View itemView) {
@@ -38,16 +38,16 @@ public class FirebaseMoviesViewHolder extends RecyclerView.ViewHolder implements
         itemView.setOnClickListener(this);
     }
 
-    public void bindMovies(Result movies) {
-        ImageView movieImageView = (ImageView) mView.findViewById(R.id.movieImageView);
-        TextView nameTextView = (TextView) mView.findViewById(R.id.MovieNameTextView);
-        TextView categoryTextView = (TextView) mView.findViewById(R.id.categoryTextView);
+    public static void bindMovies(Result movies) {
+        TextView titleTextView = (TextView) mView.findViewById(R.id.titleTextView);
         TextView ratingTextView = (TextView) mView.findViewById(R.id.ratingTextView);
+        TextView overviewTextView = (TextView) mView.findViewById(R.id.overviewTextView);
 
-        nameTextView.setText(movies.getName());
-        categoryTextView.setText(movies.getCategories().get(0).getTitle());
+
+        titleTextView.setText(movies.getTitle());
         ratingTextView.setText("Rating: " + movies.getRating() + "/5");
-        Picasso.get().load(movies.getImageUrl()).into(movieImageView);
+        overviewTextView.setText(movies.getOverview());
+
     }
 
     @Override

@@ -8,6 +8,14 @@
     tools:context=".ui.LoginActivity"
     android:background="@color/colorPrimary">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/imageView"
+        android:src="@drawable/login"
+        android:scaleType="centerCrop" />
+
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

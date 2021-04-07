@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,10 +32,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MovieDetailFragment extends AppCompatActivity implements View.OnClickListener {
-    @BindView(R.id.movieImageView) ImageView mImageLabel;
-    @BindView(R.id.movieNameTextView) TextView mNameLabel;
+    private static Object movies;
+    @BindView(R.id.titleTextView) TextView mTitleLabel;
     @BindView(R.id.ratingTextView) TextView mRatingLabel;
-    @BindView(R.id.phoneTextView) TextView mPhoneLabel;
+    @BindView(R.id.overviewTextView) TextView mOverviewLabel;
     @BindView(R.id.saveMovieButton) TextView mSaveMovieButton;
 
     private Result mMovies;
@@ -51,31 +52,31 @@ public class MovieDetailFragment extends AppCompatActivity implements View.OnCli
         return movieDetailFragment;
     }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        assert getArguments() != null;
-        mMovies = Parcels.unwrap(getArguments().getParcelable("restaurant"));
+    private void setArguments(Bundle args) {
     }
 
     @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        assert getArguments() != null;
+//        mMovies = Parcels.unwrap(getArguments().getParcelable("movies"));
+    }
+
+    private void getArguments() {
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
         ButterKnife.bind(this, view);
-        Picasso.get().load(mMovies.getImageUrl()).into(mImageLabel);
 
-        List<String> genres = new ArrayList<>();
+        List<String> genreIds = new ArrayList<>();
 
-        for (Genres genres: mMovies.getGenreIds()) {
-            genres.add(genres.getTitle());
-        }
 
-        mNameLabel.setText(mMovies.getName());
-        mGenresLabel.setText(android.text.TextUtils.join(", ", genres));
+        mTitleLabel.setText(mMovies.getTitle());
         mRatingLabel.setText(Double.toString(mMovies.getRating()) + "/5");
-        mPhoneLabel.setText(mMovies.getPhone());
+        mOverviewLabel.setText(mMovies.getOverview());
 
-        mPhoneLabel.setOnClickListener(this);
+        mOverviewLabel.setOnClickListener(this);
 
         mSaveMovieButton.setOnClickListener(this);
 
@@ -98,5 +99,9 @@ public class MovieDetailFragment extends AppCompatActivity implements View.OnCli
 
             Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private Context getContext() {
+        return null;
     }
 }
