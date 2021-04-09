@@ -2,14 +2,11 @@ package com.moringaschool.movieapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
-=======
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
->>>>>>> week3
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,18 +35,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-<<<<<<< HEAD
-    @BindView(R.id.FindMoviesButton)
-    Button mFindMoviesButton;
-    @BindView(R.id.GenresEdit)
-    EditText mGenresEdit;
-    @BindView(R.id.appNameTextView)
-    TextView mAppNameTextView;
-=======
+    @BindView(R.id.saveMovieButton) Button mSaveMovieButton;
     @BindView(R.id.FindMoviesButton) Button mFindMoviesButton;
     @BindView(R.id.appNameTextView) TextView mAppNameTextView;
-    @BindView(R.id.saveMovieButton) Button mSaveMovieButton;
->>>>>>> week3
+//    @BindView(R.id.GenresEdit) EditText mGenresEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-<<<<<<< HEAD
-=======
+
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -67,11 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (user != null) {
                     getSupportActionBar().setTitle("Welcome, " + user.getDisplayName() + "!");
                 } else {
-                    //display welcome message
                 }
             }
         };
->>>>>>> week3
 
         mFindMoviesButton.setOnClickListener(this);
         mSaveMovieButton.setOnClickListener(this);
@@ -79,52 +65,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-<<<<<<< HEAD
             if (v == mFindMoviesButton) {
-                String genres = mGenresEdit.getText().toString();
-                if (!(genres).equals("")) {
-                }
-=======
-        if (v == mFindMoviesButton) {
-            Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
+                Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
+                startActivity(intent);
+            }
+
+            if (v == mSaveMovieButton) {
+                Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
+                startActivity(intent);
+            }
+        }
+
+        @Override
+        public boolean onCreateOptionsMenu (Menu menu){
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_main, menu);
+            return super.onCreateOptionsMenu(menu);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected (MenuItem item){
+            int id = item.getItemId();
+            if (id == R.id.action_logout) {
+                logout();
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+
+        private void logout () {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finish();
         }
->>>>>>> week3
 
-        if (v == mSaveMovieButton) {
-            Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_logout) {
-            logout();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void logout() {
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
-    }
-
-<<<<<<< HEAD
-    }
-=======
     @Override
     public void onStart() {
         super.onStart();
@@ -139,4 +115,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 }
->>>>>>> week3
