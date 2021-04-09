@@ -1,7 +1,6 @@
 package com.moringaschool.movieapp.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -36,15 +35,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    @BindView(R.id.saveMovieButton) Button mSaveMovieButton;
     @BindView(R.id.FindMoviesButton) Button mFindMoviesButton;
     @BindView(R.id.appNameTextView) TextView mAppNameTextView;
-    @BindView(R.id.saveMovieButton) Button mSaveMovieButton;
+//    @BindView(R.id.GenresEdit) EditText mGenresEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (user != null) {
                     getSupportActionBar().setTitle("Welcome, " + user.getDisplayName() + "!");
                 } else {
-                    //display welcome message
                 }
             }
         };
@@ -65,41 +65,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v == mFindMoviesButton) {
-            Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
+            if (v == mFindMoviesButton) {
+                Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
+                startActivity(intent);
+            }
+
+            if (v == mSaveMovieButton) {
+                Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
+                startActivity(intent);
+            }
+        }
+
+        @Override
+        public boolean onCreateOptionsMenu (Menu menu){
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_main, menu);
+            return super.onCreateOptionsMenu(menu);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected (MenuItem item){
+            int id = item.getItemId();
+            if (id == R.id.action_logout) {
+                logout();
+                return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+
+        private void logout () {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finish();
         }
-
-        if (v == mSaveMovieButton) {
-            Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_logout) {
-            logout();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void logout() {
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
-    }
 
     @Override
     public void onStart() {

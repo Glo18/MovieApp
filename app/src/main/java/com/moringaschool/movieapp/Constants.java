@@ -10,4 +10,5 @@ public class Constants {
     public static final String FIREBASE_CHILD_SEARCHED_GENRE = "searchedGenre";
     public static String PREFERENCES_GENRES_KEY;
     public static String PREFERENCES_LOCATION_KEY;
+
 }
