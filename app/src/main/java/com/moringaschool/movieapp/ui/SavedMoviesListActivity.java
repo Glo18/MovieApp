@@ -2,6 +2,7 @@ package com.moringaschool.movieapp.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,21 +19,26 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.moringaschool.movieapp.Constants;
 import com.moringaschool.movieapp.R;
+import com.moringaschool.movieapp.adapters.FirebaseMoviesListAdapter;
 import com.moringaschool.movieapp.adapters.FirebaseMoviesViewHolder;
 import com.moringaschool.movieapp.models.Result;
+import com.moringaschool.movieapp.util.OnStartDragListener;
+import com.moringaschool.movieapp.util.SimpleItemTouchHelperCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SavedMoviesListActivity extends AppCompatActivity {
+public class SavedMoviesListActivity extends AppCompatActivity implements OnStartDragListener {
     private DatabaseReference mMoviesReference;
-    private FirebaseRecyclerAdapter<Result, FirebaseMoviesViewHolder> mFirebaseAdapter;
+    private FirebaseMoviesListAdapter mFirebaseAdapter;
+    private ItemTouchHelper mItemTouchHelper;
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
-    @BindView(R.id.errorTextView) TextView mErrorTextView;
-    @BindView(R.id.progressBar) ProgressBar mProgressBar;
+//    @BindView(R.id.errorTextView) TextView mErrorTextView;
+//    @BindView(R.id.progressBar) ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,37 +46,29 @@ public class SavedMoviesListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movies);
         ButterKnife.bind(this);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-
-        mMoviesReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_MOVIES).child(uid);
         setUpFirebaseAdapter();
-        hideProgressBar();
-        showMovies();
+//        hideProgressBar();
+//        showMovies();
     }
 
-    private void setUpFirebaseAdapter(){
+    private void setUpFirebaseAdapter() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+        Query query = FirebaseDatabase.getInstance()
+                .getReference(Constants.FIREBASE_CHILD_MOVIES)
+                .child(uid);
         FirebaseRecyclerOptions<Result> options =
                 new FirebaseRecyclerOptions.Builder<Result>()
                         .setQuery(mMoviesReference, Result.class)
                         .build();
 
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Result, FirebaseMoviesViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull FirebaseMoviesViewHolder holder, int position, @NonNull Result movies) {
-                FirebaseMoviesViewHolder.bindMovies(movies);
-            }
-
-            @NonNull
-            @Override
-            public FirebaseMoviesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movies_list_item_drag, parent, false);
-                return new FirebaseMoviesViewHolder(view);
-            }
-        };
-
+        mFirebaseAdapter = new FirebaseMoviesListAdapter(options, query, this, this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mFirebaseAdapter);
+        mRecyclerView.setHasFixedSize(true);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFirebaseAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override
@@ -86,12 +84,17 @@ public class SavedMoviesListActivity extends AppCompatActivity {
             mFirebaseAdapter.stopListening();
         }
     }
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder){
+        mItemTouchHelper.startDrag(viewHolder);
+    }
 
     private void showMovies() {
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 
-    private void hideProgressBar() {
-        mProgressBar.setVisibility(View.GONE);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mFirebaseAdapter.stopListening();
     }
 }
