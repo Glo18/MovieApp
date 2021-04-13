@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,12 +21,18 @@ import android.widget.SearchView;
 import com.moringaschool.movieapp.Constants;
 import com.moringaschool.movieapp.R;
 import com.moringaschool.movieapp.adapters.MovieListAdapter;
+import com.moringaschool.movieapp.models.MovieListResponse;
 import com.moringaschool.movieapp.models.Result;
+import com.moringaschool.movieapp.network.MoviedbApi;
+import com.moringaschool.movieapp.network.MoviedbClient;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -91,10 +98,10 @@ public class MovieListFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public void getMovies(String location) {
-        final YelpService yelpService = new YelpService();
-
-        yelpService.findRestaurants(location, new Callback() {
+    public void getMovies(String genres) {
+        MoviedbApi moviedbApi = MoviedbClient.getClient();
+        retrofit2.Call<MovieListResponse> call = moviedbApi.getMovies("34873bd5e098d4b5e303a13ccac6a12d", "en-US", "popularity.desc", "true", "false", 1);
+        call.enqueue(new retrofit2.Callback<MovieListResponse>() {
 
             @Override
             public void onFailure(Call call, IOException e) {
@@ -102,25 +109,28 @@ public class MovieListFragment extends Fragment {
             }
 
             @Override
-            public void onResponse(Call call, Response response) {
-                mRestaurants = yelpService.processResults(response);
-
-                getActivity().runOnUiThread(new Runnable() {
-
+            public void onResponse(Call  call, Response response) {
+                mMovies = moviedbApi.pr
                     @Override
                     public void run() {
-                        mAdapter = new MovieListAdapter(getActivity(), mMovies);
-                        mRecyclerView.setAdapter(mAdapter);
-                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                        mRecyclerView.setLayoutManager(layoutManager);
-                        mRecyclerView.setHasFixedSize(true);
-                    }
-                });
-            }
-        });
-    }
+                    mAdapter = new MovieListAdapter(getActivity(), mMovies);
+                    mRecyclerView.setAdapter(mAdapter);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+                    mRecyclerView.setLayoutManager(layoutManager);
+                    mRecyclerView.setHasFixedSize(true);
+                }
+            });
+                     }
+    });
+}
 
     private void addToSharedPreferences(String location) {
         mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, location).apply();
     }
+
+//                Log.e(TAG, "onFailure:", t);
+//                hideProgressBar();
+//                showFailureMessage();
+
+
 }

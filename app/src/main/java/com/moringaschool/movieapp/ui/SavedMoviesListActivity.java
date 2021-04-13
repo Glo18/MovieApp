@@ -43,7 +43,7 @@ public class SavedMoviesListActivity extends AppCompatActivity implements OnStar
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movies);
+        setContentView(R.layout.activity_saved_movie_list);
         ButterKnife.bind(this);
 
         setUpFirebaseAdapter();
