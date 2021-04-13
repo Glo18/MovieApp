@@ -77,7 +77,7 @@ public class FirebaseMoviesListAdapter extends FirebaseRecyclerAdapter<Result, F
     protected void onBindViewHolder(@NonNull final FirebaseMoviesViewHolder firebaseMoviesViewHolder, int position, @NonNull Result result) {
         firebaseMoviesViewHolder.bindMovies(result);
         @Override
-                public boolean onTouch(View v, MotionEvent event){
+        public boolean onTouch(View v, MotionEvent event){
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                 mOnStartDragListener.onStartDrag(firebaseMoviesViewHolder);
             }
