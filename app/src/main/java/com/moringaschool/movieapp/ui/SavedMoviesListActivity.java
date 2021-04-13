@@ -53,7 +53,7 @@ public class SavedMoviesListActivity extends AppCompatActivity {
         FirebaseRecyclerOptions<Result> options =
                 new FirebaseRecyclerOptions.Builder<Result>()
                         .setQuery(mMoviesReference, Result.class)
-                .build();
+                        .build();
 
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Result, FirebaseMoviesViewHolder>(options) {
             @Override
@@ -64,7 +64,7 @@ public class SavedMoviesListActivity extends AppCompatActivity {
             @NonNull
             @Override
             public FirebaseMoviesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.genres_list_item, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movies_list_item_drag, parent, false);
                 return new FirebaseMoviesViewHolder(view);
             }
         };
