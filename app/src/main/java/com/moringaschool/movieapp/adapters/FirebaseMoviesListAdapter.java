@@ -2,6 +2,7 @@ package com.moringaschool.movieapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
+import com.moringaschool.movieapp.Constants;
 import com.moringaschool.movieapp.R;
 import com.moringaschool.movieapp.models.Result;
 import com.moringaschool.movieapp.ui.MovieDetailActivity;
@@ -85,16 +87,19 @@ public class FirebaseMoviesListAdapter extends FirebaseRecyclerAdapter<Result, F
         }
     });
 
-firebaseMovieViewHolder .itemview.setOnClickListener(new View.OnClickListener()
-
-    {
+viewHolder .itemview.setOnClickListener(new View.OnClickListener(){
         @Override
         public void onClick (View v){
-        Intent intent = new Intent(mContext, MovieDetailActivity.class);
-        intent.putExtra("position", firebaseMovieViewHolder.getAdapterPosition());
-        intent.putExtra("movies", Parcels.wrap(mMovies));
-        mContext.startActivity(intent);
-    }
+            int itemPosition = viewHolder.getAdapterPosition();
+            if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                createDetailFragment(itemPosition);
+            } else {
+                Intent intent = new Intent(mContext, MovieDetailActivity.class);
+                intent.putExtra(Constants.EXTRA_KEY_POSITION, itemPosition);
+                intent.putExtra(Constants.EXTRA_KEY_RESTAURANTS, Parcels.wrap(mMovies));
+                mContext.startActivity(intent);
+            }
+        }
     });
 }
 

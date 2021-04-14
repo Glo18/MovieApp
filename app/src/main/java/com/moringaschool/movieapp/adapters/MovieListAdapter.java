@@ -1,16 +1,20 @@
 package com.moringaschool.movieapp.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.moringaschool.movieapp.R;
 import com.moringaschool.movieapp.models.Result;
+import com.moringaschool.movieapp.ui.MovieDetailFragment;
 
 import java.util.List;
 
@@ -47,15 +51,26 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         return mResults.size();
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder {
+    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.movie_name) TextView mMovie_name;
 
         private Context mContext;
+        private int mOrientation;
+        private void createDetailFragment(int position) {
+            MovieDetailFragment detailFragment = MovieDetailFragment.newInstance(mMoviies, position);
+            FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.movieName, detailFragment);
+            ft.commit();
+        }
 
         public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
+            mOrientation = itemView.getResources().getConfiguration().orientation;
+            if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                createDetailFragment(0);
+            }
         }
 
         public void bindMovieResults(Result result) {

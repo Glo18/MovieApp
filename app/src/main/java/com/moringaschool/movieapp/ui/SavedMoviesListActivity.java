@@ -31,12 +31,13 @@ import com.moringaschool.movieapp.util.SimpleItemTouchHelperCallback;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SavedMoviesListActivity extends AppCompatActivity implements OnStartDragListener {
+public class SavedMoviesListActivity extends AppCompatActivity {
     private DatabaseReference mMoviesReference;
     private FirebaseMoviesListAdapter mFirebaseAdapter;
     private ItemTouchHelper mItemTouchHelper;
 
-    @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
+    @BindView(R.id.recyclerView)
+    RecyclerView mRecyclerView;
 //    @BindView(R.id.errorTextView) TextView mErrorTextView;
 //    @BindView(R.id.progressBar) ProgressBar mProgressBar;
 
@@ -44,57 +45,57 @@ public class SavedMoviesListActivity extends AppCompatActivity implements OnStar
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_movie_list);
-        ButterKnife.bind(this);
-
-        setUpFirebaseAdapter();
-//        hideProgressBar();
-//        showMovies();
+//        ButterKnife.bind(this);
+//
+//        setUpFirebaseAdapter();
+////        hideProgressBar();
+////        showMovies();
     }
 
-    private void setUpFirebaseAdapter() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
-        Query query = FirebaseDatabase.getInstance()
-                .getReference(Constants.FIREBASE_CHILD_MOVIES)
-                .child(uid);
-        FirebaseRecyclerOptions<Result> options =
-                new FirebaseRecyclerOptions.Builder<Result>()
-                        .setQuery(mMoviesReference, Result.class)
-                        .build();
-
-        mFirebaseAdapter = new FirebaseMoviesListAdapter(options, query, this, this);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mFirebaseAdapter);
-        mRecyclerView.setHasFixedSize(true);
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFirebaseAdapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mFirebaseAdapter.startListening();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mFirebaseAdapter!= null) {
-            mFirebaseAdapter.stopListening();
-        }
-    }
-    public void onStartDrag(RecyclerView.ViewHolder viewHolder){
-        mItemTouchHelper.startDrag(viewHolder);
-    }
-
-    private void showMovies() {
-        mRecyclerView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mFirebaseAdapter.stopListening();
-    }
+//    private void setUpFirebaseAdapter() {
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        String uid = user.getUid();
+//        Query query = FirebaseDatabase.getInstance()
+//                .getReference(Constants.FIREBASE_CHILD_MOVIES)
+//                .child(uid);
+//        FirebaseRecyclerOptions<Result> options =
+//                new FirebaseRecyclerOptions.Builder<Result>()
+//                        .setQuery(mMoviesReference, Result.class)
+//                        .build();
+//
+//        mFirebaseAdapter = new FirebaseMoviesListAdapter(options, query, this, this);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        mRecyclerView.setAdapter(mFirebaseAdapter);
+//        mRecyclerView.setHasFixedSize(true);
+//        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFirebaseAdapter);
+//        mItemTouchHelper = new ItemTouchHelper(callback);
+//        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+//    }
+//
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        mFirebaseAdapter.startListening();
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        if (mFirebaseAdapter!= null) {
+//            mFirebaseAdapter.stopListening();
+//        }
+//    }
+//    public void onStartDrag(RecyclerView.ViewHolder viewHolder){
+//        mItemTouchHelper.startDrag(viewHolder);
+//    }
+//
+//    private void showMovies() {
+//        mRecyclerView.setVisibility(View.VISIBLE);
+//    }
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        mFirebaseAdapter.stopListening();
+//    }
 }
