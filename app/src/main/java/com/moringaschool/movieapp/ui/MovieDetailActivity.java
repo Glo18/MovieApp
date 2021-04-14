@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MovieDetailActivity extends AppCompatActivity {
+    private String mSource;
     ArrayList<Result> mMovies = new ArrayList<>();
 
     @Override
@@ -26,5 +27,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         mMovies = Parcels.unwrap(getIntent().getParcelableExtra(Constants.EXTRA_KEY_MOVIES));
         int startingPosition = getIntent().getIntExtra(Constants.EXTRA_KEY_POSITION, 0);
+        mSource = getIntent().getStringExtra(Constants.KEY_SOURCE);
     }
 }

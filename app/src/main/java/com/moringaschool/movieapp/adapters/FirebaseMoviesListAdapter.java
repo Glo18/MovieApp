@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.ItemTouchHelper;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -23,6 +25,7 @@ import com.moringaschool.movieapp.Constants;
 import com.moringaschool.movieapp.R;
 import com.moringaschool.movieapp.models.Result;
 import com.moringaschool.movieapp.ui.MovieDetailActivity;
+import com.moringaschool.movieapp.ui.MovieDetailFragment;
 import com.moringaschool.movieapp.util.ItemTouchHelperAdapter;
 import com.moringaschool.movieapp.util.OnStartDragListener;
 
@@ -41,7 +44,7 @@ public class FirebaseMoviesListAdapter extends FirebaseRecyclerAdapter<Result, F
     public FirebaseMoviesListAdapter(FirebaseRecyclerOptions<Result> options,
                                      Query ref,
                                      OnStartDragListener onStartDragListener,
-                                     Context context){
+                                     Context context) {
         super(options);
         mRef = ref.getRef();
         mOnStartDragListener = onStartDragListener;
@@ -76,32 +79,37 @@ public class FirebaseMoviesListAdapter extends FirebaseRecyclerAdapter<Result, F
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull final FirebaseMoviesViewHolder firebaseMoviesViewHolder, int position, @NonNull Result result) {
-        firebaseMoviesViewHolder.bindMovies(result);
-        @Override
-        public boolean onTouch(View v, MotionEvent event){
-            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                mOnStartDragListener.onStartDrag(firebaseMoviesViewHolder);
-            }
-            return false;
-        }
-    });
+    protected void onBindViewHolder(@NonNull final FirebaseMoviesViewHolder firebaseMoviesViewHolder, int position, @NonNull Result movies) {
+        firebaseMoviesViewHolder.bindMovies(movies);
 
-viewHolder .itemview.setOnClickListener(new View.OnClickListener(){
+        mOrientation = firebaseMoviesViewHolder.itemView.getResources().getConfiguration().orientation;
+        if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            createDetailFragment(0);
+        }
+
+    firebaseMoviesViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override
-        public void onClick (View v){
-            int itemPosition = viewHolder.getAdapterPosition();
+        public void onClick(View v) {
+            int itemPosition = firebaseMoviesViewHolder.getAdapterPosition();
             if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
                 createDetailFragment(itemPosition);
             } else {
                 Intent intent = new Intent(mContext, MovieDetailActivity.class);
                 intent.putExtra(Constants.EXTRA_KEY_POSITION, itemPosition);
                 intent.putExtra(Constants.EXTRA_KEY_MOVIES, Parcels.wrap(mMovies));
+                intent.putExtra(Constants.KEY_SOURCE, Constants.SOURCE_SAVED);
                 mContext.startActivity(intent);
             }
         }
     });
-}
+    }
+
+    private void createDetailFragment(int position) {
+        MovieDetailFragment detailFragment = MovieDetailFragment.newInstance(mMovies, position, Constants.SOURCE_SAVED);
+        FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.movieDetailContainer, detailFragment);
+        ft.commit();
+    }
 
     @NonNull
     @Override

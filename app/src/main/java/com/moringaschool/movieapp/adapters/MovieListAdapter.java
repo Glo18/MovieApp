@@ -40,7 +40,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         mOnMovieSelectedListener = movieSelectedListener;
     }
 
-    @NonNull
     @Override
     public MovieListAdapter.MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.genres_list_item, parent, false);
@@ -51,7 +50,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     @Override
     public void onBindViewHolder(@NonNull MovieListAdapter.MovieViewHolder holder, int position) {
-        holder.bindMovieResults(mMovies.get(position));
+        holder.bindMovies(mMovies.get(position));
     }
 
     @Override

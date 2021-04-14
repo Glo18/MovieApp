@@ -39,33 +39,36 @@ public class MovieDetailFragment extends AppCompatActivity implements View.OnCli
     @BindView(R.id.saveMovieButton) TextView mSaveMovieButton;
 
     private Result mMovies;
+    private ArrayList<Result> mMovies;
+    private int mPosition;
+    private String mSource;
 
     public MovieDetailFragment() {
 
     }
 
-    public static MovieDetailFragment newInstance(Result genres) {
+    public static MovieDetailFragment newInstance(ArrayList<Result> movies, Integer position, String mSource) {
         MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
         Bundle args = new Bundle();
-        args.putParcelable("movies", Parcels.wrap(movies));
+
+        args.putParcelable(Constants.EXTRA_KEY_MOVIES, Parcels.wrap(movies));
+        args.putInt(Constants.EXTRA_KEY_POSITION, position);
+        args.putString(Constants.KEY_SOURCE, source);
+
         movieDetailFragment.setArguments(args);
         return movieDetailFragment;
-    }
-
-    public static MovieDetailFragment newInstance(ArrayList<Result> mMovies, int position) {
-    }
-
-    private void setArguments(Bundle args) {
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mMovies = Parcels.unwrap(getArguments().getParcelable(Constants.EXTRA_KEY_MOVIES));
+        mPosition = getArguments().getInt(Constants.EXTRA_KEY_POSITION);
+        mMovies = mMovies.get(mPosition);
+        mSource = getArguments().getString(Constants.KEY_SOURCE);
+        setHasOptionsMenu(true);
 //        assert getArguments() != null;
 //        mMovies = Parcels.unwrap(getArguments().getParcelable("movies"));
-    }
-
-    private void getArguments() {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,7 +84,11 @@ public class MovieDetailFragment extends AppCompatActivity implements View.OnCli
 
         mOverviewLabel.setOnClickListener(this);
 
-        mSaveMovieButton.setOnClickListener(this);
+        if (mSource.equals(Constants.SOURCE_SAVED)){
+            mSaveMovieButton.setVisibility(View.GONE);
+        } else {
+            mSaveMovieButton.setOnClickListener(this);
+        }
 
         return view;
     }

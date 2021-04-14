@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -26,6 +27,8 @@ import com.moringaschool.movieapp.network.MoviedbApi;
 import com.moringaschool.movieapp.network.MoviedbClient;
 import com.moringaschool.movieapp.util.OnMovieSelectedListener;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +41,7 @@ import retrofit2.Response;
 public class MoviesListActivity extends AppCompatActivity implements OnMovieSelectedListener {
     private Integer mPosition;
     ArrayList<Result> mMovies;
+    String mSource;
 //    private SharedPreferences mSharedPreferences;
 //    private SharedPreferences.Editor mEditor;
 //    private String mRecentGenres;
@@ -53,20 +57,46 @@ public class MoviesListActivity extends AppCompatActivity implements OnMovieSele
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
+
+        if (savedInstanceState != null) {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                mPosition = savedInstanceState.getInt(Constants.EXTRA_KEY_POSITION);
+                mMovies = Parcels.unwrap(savedInstanceState.getParcelable(Constants.EXTRA_KEY_MOVIES));
+                mSource = savedInstanceState.getString(Constants.KEY_SOURCE);
+
+                if (mPosition != null && mMovies != null) {
+                    Intent intent = new Intent(this, MovieDetailActivity.class);
+                    intent.putExtra(Constants.EXTRA_KEY_POSITION, mPosition);
+                    intent.putExtra(Constants.EXTRA_KEY_MOVIES, Parcels.wrap(mMovies));
+                    startActivity(intent);
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (mPosition != null && mMovies != null) {
+            outState.putInt(Constants.EXTRA_KEY_POSITION, mPosition);
+            outState.putParcelable(Constants.EXTRA_KEY_MOVIES, Parcels.wrap(mMovies));
+            outState.putString(Constants.KEY_SOURCE, mSource);
+        }
+    }
+    @Override
+    public void onMovieSelected(Integer position, ArrayList<Result> movies, String source) {
+        mPosition = position;
+        mMovies = movies;
+        mSource = source;
+    }
+}
 //        ButterKnife.bind(this);
 //
 //        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 //        mRecentGenres = mSharedPreferences.getString(Constants.PREFERENCES_GENRES_KEY, null);
 //        if (mRecentGenres != null) {
 //            fetchMovies(mRecentGenres);
-        }
-
-        @Override
-    public void onMovieSelected(Integer position, ArrayList<Result> movies) {
-        mPosition = position;
-        mMovies = movies;
-        }
-    }
 
 //        @Override
 //        public boolean onCreateOptionsMenu (Menu menu){
