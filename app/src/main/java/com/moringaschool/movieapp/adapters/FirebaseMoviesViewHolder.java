@@ -45,14 +45,14 @@ public class FirebaseMoviesViewHolder extends RecyclerView.ViewHolder implements
     }
 
     public void bindMovies(Result movies) {
-        TextView titleTextView = (TextView) mView.findViewById(R.id.titleTextView);
+//        TextView titleTextView = (TextView) mView.findViewById(R.id.titleTextView);
         TextView ratingTextView = (TextView) mView.findViewById(R.id.ratingTextView);
-        TextView overviewTextView = (TextView) mView.findViewById(R.id.overviewTextView);
+//        TextView overviewTextView = (TextView) mView.findViewById(R.id.overviewTextView);
 
 
-        titleTextView.setText(movies.getTitle());
+//        titleTextView.setText(movies.getTitle());
         ratingTextView.setText("Rating: " + movies.getRating() + "/5");
-        overviewTextView.setText(movies.getOverview());
+//        overviewTextView.setText(movies.getOverview());
 
     }
 

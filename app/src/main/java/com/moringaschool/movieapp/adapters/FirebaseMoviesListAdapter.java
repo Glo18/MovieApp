@@ -40,6 +40,7 @@ public class FirebaseMoviesListAdapter extends FirebaseRecyclerAdapter<Result, F
     private Context mContext;
     private ChildEventListener mChildEventListener;
     private ArrayList<Result> mMovies = new ArrayList<>();
+    private int mOrientation;
 
     public FirebaseMoviesListAdapter(FirebaseRecyclerOptions<Result> options,
                                      Query ref,
@@ -107,7 +108,7 @@ public class FirebaseMoviesListAdapter extends FirebaseRecyclerAdapter<Result, F
     private void createDetailFragment(int position) {
         MovieDetailFragment detailFragment = MovieDetailFragment.newInstance(mMovies, position, Constants.SOURCE_SAVED);
         FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.movieDetailContainer, detailFragment);
+//        final FragmentTransaction replace = ft.replace(R.id.locationTextView, detailFragment);
         ft.commit();
     }
 

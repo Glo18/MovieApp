@@ -3,6 +3,7 @@ package com.moringaschool.movieapp.network;
 import com.moringaschool.movieapp.models.MovieListResponse;
 
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -16,4 +17,6 @@ public interface MoviedbApi {
             @Query("include_video") String include_video,
             @Query("page") Integer page
     );
+
+    Object processResults(Response response);
 }

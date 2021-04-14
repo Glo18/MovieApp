@@ -82,9 +82,9 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         }
 
         private void createDetailFragment(int position) {
-            MovieDetailFragment detailFragment = MovieDetailFragment.newInstance(mMovies, position);
+            MovieDetailFragment detailFragment = MovieDetailFragment.newInstance(mMovies, position, " ");
             FragmentTransaction ft = ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.movieDetailContainer, detailFragment);
+//            ft.replace(R.id.movieDetailContainer, detailFragment);
             ft.commit();
         }
 

@@ -90,6 +90,11 @@ public class MoviesListActivity extends AppCompatActivity implements OnMovieSele
         mMovies = movies;
         mSource = source;
     }
+
+    @Override
+    public void onMovieSelected(int itemPosition, ArrayList<Result> mMovies) {
+
+    }
 }
 //        ButterKnife.bind(this);
 //

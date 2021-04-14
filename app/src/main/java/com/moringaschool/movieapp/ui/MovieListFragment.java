@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
@@ -51,7 +52,8 @@ public class MovieListFragment extends Fragment {
     private OnMovieSelectedListener mOnMovieSelectedListener;
     private SharedPreferences.Editor mEditor;
 
-    private void onAttach(Context context) {
+    @Override
+    public void onAttach(Context context) {
         super.onAttach(context);
         try {
             mOnMovieSelectedListener = (OnMovieSelectedListener) context;
@@ -84,31 +86,35 @@ public class MovieListFragment extends Fragment {
         return view;
     }
 
-    public void getMovies(String genres) {
-        MoviedbApi moviedbApi = MoviedbClient.getClient();
-        retrofit2.Call<MovieListResponse> call = moviedbApi.getMovies("34873bd5e098d4b5e303a13ccac6a12d", "en-US", "popularity.desc", "true", "false", 1);
-        call.enqueue(new retrofit2.Callback<MovieListResponse>() {
+    private void getMovies(String mRecentAddress) {
+    }
 
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call  call, Response response) {
-                mMovies = moviedbApi.pr
-                    @Override
-                    public void run() {
-                    mAdapter = new MovieListAdapter(getActivity(), mMovies);
-                    mRecyclerView.setAdapter(mAdapter);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-                    mRecyclerView.setLayoutManager(layoutManager);
-                    mRecyclerView.setHasFixedSize(true);
-                }
-            });
-                     }
-    });
-}
+//    public void getMovies(String genres) {
+//        MoviedbApi moviedbApi = MoviedbClient.getClient();
+//        moviedbApi.findMovies(genres, new Callback<>())
+//        call.enqueue(new retrofit2.Callback<MovieListResponse>() {
+//
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            @Override
+//            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException{
+//                Object movies = moviedbApi.processResults(response);
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mAdapter = new MovieListAdapter(getActivity(), mMovies);
+//                        mRecyclerView.setAdapter(mAdapter);
+//                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+//                        mRecyclerView.setLayoutManager(layoutManager);
+//                        mRecyclerView.setHasFixedSize(true);
+//                    }
+//                });
+//            }
+//    });
+//}
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
