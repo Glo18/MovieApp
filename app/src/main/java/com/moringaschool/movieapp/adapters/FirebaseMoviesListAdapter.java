@@ -96,7 +96,7 @@ viewHolder .itemview.setOnClickListener(new View.OnClickListener(){
             } else {
                 Intent intent = new Intent(mContext, MovieDetailActivity.class);
                 intent.putExtra(Constants.EXTRA_KEY_POSITION, itemPosition);
-                intent.putExtra(Constants.EXTRA_KEY_RESTAURANTS, Parcels.wrap(mMovies));
+                intent.putExtra(Constants.EXTRA_KEY_MOVIES, Parcels.wrap(mMovies));
                 mContext.startActivity(intent);
             }
         }

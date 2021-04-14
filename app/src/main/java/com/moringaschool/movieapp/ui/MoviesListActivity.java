@@ -24,7 +24,9 @@ import com.moringaschool.movieapp.models.MovieListResponse;
 import com.moringaschool.movieapp.models.Result;
 import com.moringaschool.movieapp.network.MoviedbApi;
 import com.moringaschool.movieapp.network.MoviedbClient;
+import com.moringaschool.movieapp.util.OnMovieSelectedListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,7 +35,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MoviesListActivity extends AppCompatActivity {
+public class MoviesListActivity extends AppCompatActivity implements OnMovieSelectedListener {
+    private Integer mPosition;
+    ArrayList<Result> mMovies;
 //    private SharedPreferences mSharedPreferences;
 //    private SharedPreferences.Editor mEditor;
 //    private String mRecentGenres;
@@ -55,6 +59,12 @@ public class MoviesListActivity extends AppCompatActivity {
 //        mRecentGenres = mSharedPreferences.getString(Constants.PREFERENCES_GENRES_KEY, null);
 //        if (mRecentGenres != null) {
 //            fetchMovies(mRecentGenres);
+        }
+
+        @Override
+    public void onMovieSelected(Integer position, ArrayList<Result> movies) {
+        mPosition = position;
+        mMovies = movies;
         }
     }
 

@@ -1,8 +1,10 @@
 package com.moringaschool.movieapp.ui;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +27,7 @@ import com.moringaschool.movieapp.models.MovieListResponse;
 import com.moringaschool.movieapp.models.Result;
 import com.moringaschool.movieapp.network.MoviedbApi;
 import com.moringaschool.movieapp.network.MoviedbClient;
+import com.moringaschool.movieapp.util.OnMovieSelectedListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,8 +45,20 @@ public class MovieListFragment extends Fragment {
 
     private MovieListAdapter mAdapter;
     public ArrayList<Result> mMovies = new ArrayList<>();
+
     private SharedPreferences mSharedPreferences;
     private String mRecentAddress;
+    private OnMovieSelectedListener mOnMovieSelectedListener;
+    private SharedPreferences.Editor mEditor;
+
+    private void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mOnMovieSelectedListener = (OnMovieSelectedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + e.getMessage());
+        }
+    }
 
     public MovieListFragment() {
     }
@@ -57,7 +72,7 @@ public class MovieListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie_list, container, false);
         ButterKnife.bind(this, view);
@@ -67,35 +82,6 @@ public class MovieListFragment extends Fragment {
             getMovies(mRecentAddress);
         }
         return view;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_search, menu);
-
-        MenuItem menuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                addToSharedPreferences(query);
-                getMovies(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
     }
 
     public void getMovies(String genres) {
@@ -124,13 +110,36 @@ public class MovieListFragment extends Fragment {
     });
 }
 
-    private void addToSharedPreferences(String location) {
-        mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, location).apply();
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_search, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                addToSharedPreferences(s);
+                getMovies(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
     }
 
-//                Log.e(TAG, "onFailure:", t);
-//                hideProgressBar();
-//                showFailureMessage();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
 
-
+    private void addToSharedPreferences(String genres) {
+        mEditor.putString(Constants.PREFERENCES_GENRES_KEY, genres).apply();
+    }
 }

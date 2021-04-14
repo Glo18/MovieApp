@@ -11,5 +11,7 @@ public class Constants {
     public static String PREFERENCES_GENRES_KEY;
     public static String PREFERENCES_LOCATION_KEY;
     public static final String FIREBASE_QUERY_INDEX = "index";
+    public static final String EXTRA_KEY_POSITION = "position";
+    public static final String EXTRA_KEY_MOVIES = "movies";
 
 }

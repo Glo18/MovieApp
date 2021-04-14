@@ -52,6 +52,9 @@ public class MovieDetailFragment extends AppCompatActivity implements View.OnCli
         return movieDetailFragment;
     }
 
+    public static MovieDetailFragment newInstance(ArrayList<Result> mMovies, int position) {
+    }
+
     private void setArguments(Bundle args) {
     }
 
