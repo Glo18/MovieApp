@@ -41,40 +41,48 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        };
-
         ButterKnife.bind(this);
         mPasswordLoginButton.setOnClickListener(this);
         mRegisterTextView.setOnClickListener(this);
+
+//        mAuth = FirebaseAuth.getInstance();
+
+//        mAuthListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                FirebaseUser user = firebaseAuth.getCurrentUser();
+//                if (user != null) {
+//                    Log.d("successful login", "success");
+//
+//                    finish();
+//                } else {
+//                    Log.d("unsuccessful login", "unsuccessful");
+//                }
+//            }
+//        };
+
     }
 
-    @Override
-    public void onClick(View view) {
+        @Override
+        public void onClick(View view) {
         if (view == mRegisterTextView) {
-            Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
+            Intent intent = new Intent(this, CreateAccountActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }
 
         if (view == mPasswordLoginButton) {
-            loginWithPassword();
-            showProgressBar();
+//                loginWithPassword();
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+//                showProgressBar();
+
+            }
+
         }
-    }
+
 
     private void loginWithPassword() {
         String email = mEmailEditText.getText().toString().trim();
@@ -101,13 +109,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         }
                     }
                 });
+        if (email != "" && password != "") {
+            Log.d("success","found email and password text");
 
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+//        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
@@ -128,4 +139,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mSignInProgressBar.setVisibility(View.GONE);
         mLoadingSignUp.setVisibility(View.GONE);
     }
+
 }

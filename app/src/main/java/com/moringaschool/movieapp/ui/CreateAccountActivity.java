@@ -48,12 +48,12 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_create_account);
         ButterKnife.bind(this);
 
-        mAuth = FirebaseAuth.getInstance();
+//        mAuth = FirebaseAuth.getInstance();
 
         mLoginTextView.setOnClickListener(this);
         mCreateUserButton.setOnClickListener(this);
 
-        createAuthStateListener();
+//        createAuthStateListener();
     }
 
     @Override
@@ -66,7 +66,11 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         }
 
         if (view == mCreateUserButton) {
+            Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             createNewUser();
+            Toast.makeText(this, "User created", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -91,7 +95,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                     if (task.isSuccessful()) {
 
                         createFirebaseUserProfile(Objects.requireNonNull(task.getResult().getUser()));
-                        Log.d(TAG, "Aunthetication successful");
+                        Log.d(TAG, "Aunthentication successful");
                     } else {
                         Toast.makeText(CreateAccountActivity.this, "Aunthetication failed.",
                                 Toast.LENGTH_SHORT).show();
@@ -113,7 +117,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+//        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
