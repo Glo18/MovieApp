@@ -46,7 +46,7 @@ public class SavedMoviesListActivity extends AppCompatActivity implements OnStar
         setContentView(R.layout.activity_movie);
         ButterKnife.bind(this);
 
-        mMoviesReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_MOVIES);
+//        mMoviesReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_MOVIES);
         setUpFirebaseAdapter();
 //        hideProgressBar();
 //        showMovies();
