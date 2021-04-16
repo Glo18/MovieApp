@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             if (v == mSaveMovieButton) {
-                Intent intent = new Intent(MainActivity.this, MoviesListActivity.class);
+                Intent intent = new Intent(MainActivity.this, SavedMoviesListActivity.class);
                 startActivity(intent);
             }
         }

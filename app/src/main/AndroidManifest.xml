@@ -26,7 +26,8 @@
             android:name=".ui.MainActivity">
 
         </activity>
-        <activity android:name=".ui.MoviesListActivity">
+        <activity android:name=".ui.MoviesListActivity"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.moringaschool.movieapp.ui.MainActivity" />

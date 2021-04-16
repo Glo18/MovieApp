@@ -18,7 +18,6 @@ import com.moringaschool.movieapp.R;
 import com.moringaschool.movieapp.models.Result;
 import com.moringaschool.movieapp.ui.MovieDetailActivity;
 import com.moringaschool.movieapp.ui.MovieDetailFragment;
-import com.moringaschool.movieapp.util.OnMovieSelectedListener;
 
 import org.parceler.Parcels;
 
@@ -30,20 +29,18 @@ import butterknife.ButterKnife;
 
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder> {
-    private ArrayList<Result> mMovies = new ArrayList<>();
+    private ArrayList<Result> mMovies;
     private Context mContext;
-    private OnMovieSelectedListener mOnMovieSelectedListener;
 
-    public MovieListAdapter(Context context, ArrayList<Result> movies, OnMovieSelectedListener movieSelectedListener) {
+    public MovieListAdapter(Context context, ArrayList<Result> movies) {
         mContext = context;
         mMovies = movies;
-        mOnMovieSelectedListener = movieSelectedListener;
     }
 
     @Override
     public MovieListAdapter.MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.genres_list_item, parent, false);
-        MovieViewHolder viewHolder = new MovieViewHolder(view, mMovies, mOnMovieSelectedListener);
+        MovieViewHolder viewHolder = new MovieViewHolder(view, mMovies);
         return viewHolder;
 
     }
@@ -53,32 +50,31 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         holder.bindMovies(mMovies.get(position));
     }
 
+
     @Override
     public int getItemCount() {
         return mMovies.size();
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    public class MovieViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.movie_name) TextView mMovie_name;
 
         private Context mContext;
         private int mOrientation;
         private ArrayList<Result> mMovies = new ArrayList<>();
-        private OnMovieSelectedListener mMovieSelectedListener;
 
-        public MovieViewHolder(@NonNull View itemView, ArrayList<Result> movies, OnMovieSelectedListener movieSelectedListener) {
+        public MovieViewHolder(@NonNull View itemView, ArrayList<Result> movies) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
             mOrientation = itemView.getResources().getConfiguration().orientation;
 
             mMovies = movies;
-            mMovieSelectedListener = movieSelectedListener;
 
             if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
                 createDetailFragment(0);
             }
-            itemView.setOnClickListener(this);
         }
 
         private void createDetailFragment(int position) {
@@ -92,19 +88,18 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             mMovie_name.setText(result.getOriginalTitle());
         }
 
-        @Override
-        public void onClick(View v) {
-            int itemPosition = getLayoutPosition();
-            mMovieSelectedListener.onMovieSelected(itemPosition, mMovies);
-            if (mOrientation == Configuration.ORIENTATION_LANDSCAPE){
-                createDetailFragment(itemPosition);
-            } else {
-                Intent intent = new Intent(mContext, MovieDetailActivity.class);
-                intent.putExtra(Constants.EXTRA_KEY_POSITION, itemPosition);
-                intent.putExtra(Constants.EXTRA_KEY_MOVIES, Parcels.wrap(mMovies));
-                mContext.startActivity(intent);
-            }
-        }
+//        @Override
+//        public void onClick(View v) {
+//            int itemPosition = getLayoutPosition();
+//            if (mOrientation == Configuration.ORIENTATION_LANDSCAPE){
+//                createDetailFragment(itemPosition);
+//            } else {
+//                Intent intent = new Intent(mContext, MovieDetailActivity.class);
+//                intent.putExtra(Constants.EXTRA_KEY_POSITION, itemPosition);
+//                intent.putExtra(Constants.EXTRA_KEY_MOVIES, Parcels.wrap(mMovies));
+//                mContext.startActivity(intent);
+//            }
+//        }
     }
 }
 
